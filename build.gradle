@@ -20,6 +20,13 @@ subprojects { Project subProject ->
         google()
         maven { url 'https://jitpack.io' }
     }
+
+    project.plugins.whenPluginAdded { plugin ->
+        if ("com.android.build.gradle.AppPlugin" == plugin.class.name) {
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        } else if ("com.android.build.gradle.LibraryPlugin" == plugin.class.name)
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+    }
 }
 
 task clean(type: Delete) {
