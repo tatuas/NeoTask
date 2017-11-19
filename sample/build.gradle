@@ -31,7 +31,7 @@ dependencies {
     testImplementation implementations.junit
     androidTestImplementation implementations.androidTestRunner
 
-    implementation(project(":neotask")) {
+    implementation(project(":library")) {
         transitive = true
     }
 }
