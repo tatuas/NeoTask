@@ -1,0 +1,39 @@
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+apply plugin: "com.github.dcendents.android-maven"
+
+android {
+    publishNonDefault true
+    compileSdkVersion sdkVersion
+
+    defaultConfig {
+        minSdkVersion sdkMinVersion
+        targetSdkVersion sdkVersion
+        versionName libraryVersion
+
+        testInstrumentationRunner implementations.androidJUnitRunner
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+dependencies {
+    implementation implementations.kotlin
+
+    testImplementation implementations.junit
+    androidTestImplementation implementations.androidTestRunner
+
+    api implementations.gmsTask
+}
+
+repositories {
+    mavenCentral()
+}

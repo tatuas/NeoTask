@@ -1,0 +1,23 @@
+ext {
+    kotlinVersion = "1.1.60"
+    libraryVersion = "1.0.0-beta1"
+
+    sdkMinVersion = 14
+    sdkVersion = 26
+
+    classpathes = [
+            googleServices: "com.google.gms:google-services:3.1.0",
+            gradle        : "com.android.tools.build:gradle:3.0.0",
+            kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+            maven         : "com.github.dcendents:android-maven-gradle-plugin:2.0",
+    ]
+
+    implementations = [
+            appCompatV7           : "com.android.support:appcompat-v7:26.1.0",
+            kotlin                : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",
+            gmsTask               : "com.google.android.gms:play-services-tasks:11.6.0",
+            junit                 : "junit:junit:4.12",
+            androidTestRunner     : "com.android.support.test:runner:1.0.1",
+            androidJUnitTestRunner: "android.support.test.runner.AndroidJUnitRunner",
+    ]
+}

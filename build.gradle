@@ -1,0 +1,25 @@
+apply from: rootProject.file('dependencies.gradle')
+
+subprojects { Project subProject ->
+    buildscript {
+        repositories {
+            jcenter()
+            google()
+        }
+        dependencies {
+            classpath classpathes.gradle
+            classpath classpathes.googleServices
+            classpath classpathes.kotlin
+            classpath classpathes.maven
+        }
+    }
+
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
