@@ -2,8 +2,10 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 apply plugin: "com.github.dcendents.android-maven"
 
+group="com.github.tatuas"
+
 android {
-    publishNonDefault true
+    defaultPublishConfig "release"
     compileSdkVersion sdkVersion
 
     defaultConfig {
@@ -19,8 +21,7 @@ android {
             minifyEnabled false
         }
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            minifyEnabled false
         }
     }
 }
@@ -30,8 +31,6 @@ dependencies {
 
     testImplementation implementations.junit
     androidTestImplementation implementations.androidTestRunner
-
-    implementation implementations.jitpack
 
     api implementations.gmsTask
 }
