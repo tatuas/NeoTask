@@ -27,7 +27,7 @@ See the Firebase blog posts or Google I/O 2016
 
 - https://firebase.googleblog.com/2016/10/become-a-firebase-taskmaster-part-4.html
 
-- https://www.youtube.com/watch?v=AJqakuas_6g&index=12&list=PLl-K7zZEsYLlAyGS6_paVoGJ9YKC7J3NN
+- https://www.youtube.com/watch?v=AJqakuas_6g
 
 # Usage
 
@@ -67,13 +67,11 @@ NeoTask.callAsync(SampleCallable.StringCallable())
 ## Add it in your root build.gradle with
 
 ```
-
 allprojects {
     repositories {
-        maven { url 'https://jitpack.io' }
+        maven { url "https://jitpack.io" }
     }
 }
-
 ```
 
 ## Add the dependency in app module
@@ -81,8 +79,23 @@ allprojects {
 ```
 
 dependencies {
-    implementation "com.tatuas.android:NeoTask:{$latest_version}"
+    implementation "com.github.tatuas:NeoTask:{$latest_version}"
 }
-
-
 ```
+
+License
+-------
+
+    Copyright (C) 2017 Tatsuya Sawai
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
