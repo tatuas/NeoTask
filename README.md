@@ -5,19 +5,20 @@
 
 # NeoTask
 
-A extension library that you can use Google Play Services Task API more sexy!
+NeoTask is an extension library that treats Tasks API smarter. For example, you can greatly simplify the code to perform asynchronous processing of the Task API in serial or parallel, or create Custom Task easily.
 
 # Requirements
 
+- Android SDK API Level 14 or more
 - Android Project written in Kotlin
 
-# Recommend
+# Recommended environment
 
-- Android Project using Firebase Platform
+- Android Project using Firebase and Kotlin
 
-# What is Task API
+# About Tasks API
 
-See the Firebase blog posts or Google I/O 2016
+Recommend to see the Firebase blog posts or Google I/O 2016 youtube.
 
 - https://firebase.googleblog.com/2016/09/become-a-firebase-taskmaster-part-1.html
 
@@ -29,24 +30,30 @@ See the Firebase blog posts or Google I/O 2016
 
 - https://www.youtube.com/watch?v=AJqakuas_6g
 
-# Usage
+Tasks API Guides from Google
 
-If you wants to learn more, see also the sample project this repo.
+- https://developers.google.com/android/guides/tasks
+
+# Usage
 
 ## Parallel Task Execution
 
 ```kotlin
 
 NeoTask.parallel(
-        NeoTask.callAsync(SampleCallable.LongCallable()),
-        NeoTask.callAsync(SampleCallable.VoidCallable()),
-        NeoTask.callAsync(SampleCallable.StringCallable()))
-        .addOnSuccessListener(this, {
-            // Things to do
-        })
-        .addOnFailureListener(this, {
-            // Things to do
-        })
+    NeoTask.callAsync(SampleCallable.LongCallable()),
+    NeoTask.callAsync(SampleCallable.StringCallable()),
+    NeoTask.callAsync(SampleCallable.LongCallable()),
+    NeoTask.callAsync(SampleCallable.StringCallable()),
+    NeoTask.callAsync(SampleCallable.LongCallable()))
+  .addOnSuccessListener(this, {
+    val result = "${it.first}, ${it.second}, ${it.third}, ${it.fourth}, ${it.five}"
+    // Do something
+  })
+  .addOnFailureListener(this, {
+    val exception = it
+    // Do something
+  })
 
 ```
 
@@ -55,16 +62,27 @@ NeoTask.parallel(
 ```kotlin
 
 NeoTask.callAsync(SampleCallable.StringCallable())
-        .thenCallable { SampleCallable.StringCallable2(",additional") }
-        .addOnCompleteListener(this, {
-            // Things to do
-        })
+  .thenCallable {
+    SampleCallable.StringCallable2("$it, additional")
+  }
+  .addOnCompleteListener(this, {
+    if (it.isSuccessful) {
+      val result = it.result
+      // Do something
+    }
+    else {
+      val exception = it.exception
+      // Do something
+    }
+  })
 
 ```
 
+If you wants to learn more, see also the sample project this repo.
+
 # Installation
 
-## Add it in your root build.gradle with
+## Add repositories in your root build.gradle
 
 ```
 allprojects {
@@ -77,7 +95,6 @@ allprojects {
 ## Add the dependency in app module
 
 ```
-
 dependencies {
     implementation "com.github.tatuas:NeoTask:{$latest_version}"
 }

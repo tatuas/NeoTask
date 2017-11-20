@@ -15,11 +15,13 @@ class MyActivity : AppCompatActivity() {
 
         parallelButton.setOnClickListener {
             NeoTask.parallel(
-                    NeoTask.callAsync(SampleCallable.LongCallable()),
-                    NeoTask.callAsync(SampleCallable.VoidCallable()),
+                    NeoTask.callAsync(SampleCallable.StringCallable()),
+                    NeoTask.callAsync(SampleCallable.StringCallable()),
+                    NeoTask.callAsync(SampleCallable.StringCallable()),
+                    NeoTask.callAsync(SampleCallable.StringCallable()),
                     NeoTask.callAsync(SampleCallable.StringCallable()))
                     .addOnSuccessListener(this, {
-                        toast(listOf(it?.first, it?.second, it?.third)
+                        toast(listOf(it.first, it.second, it.third, it.fourth, it.five)
                                 .joinToString(separator = ",", prefix = "[", postfix = "]"))
                     })
                     .addOnFailureListener(this, {
@@ -29,7 +31,7 @@ class MyActivity : AppCompatActivity() {
 
         thenButton.setOnClickListener {
             NeoTask.callAsync(SampleCallable.StringCallable())
-                    .thenCallable { SampleCallable.StringCallable2(",additional") }
+                    .thenCallable { SampleCallable.StringCallable2("$it, additional") }
                     .addOnCompleteListener(this, {
                         if (it.isSuccessful) {
                             toast(it.result.toString())

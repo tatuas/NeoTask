@@ -16,10 +16,10 @@ class MyIntentService : IntentService("MyIntentService") {
     override fun onHandleIntent(intent: Intent?) {
 
         NeoTask.callBlocking(SampleCallable.StringCallable())
-                .thenCallableBlocking { SampleCallable.StringCallable2(it ?: "empty") }
+                .thenCallableBlocking { SampleCallable.StringCallable2(it) }
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        log(it.result ?: "empty")
+                        log(it.result)
                     } else {
                         log(it.toString())
                     }
