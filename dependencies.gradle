@@ -1,6 +1,6 @@
 ext {
     kotlinVersion = "1.1.60"
-    libraryVersion = "1.0.0-beta5"
+    libraryVersion = "1.0.0-beta6"
 
     sdkMinVersion = 14
     sdkVersion = 26
