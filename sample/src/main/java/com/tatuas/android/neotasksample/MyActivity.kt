@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.tatuas.android.neotask.NeoTask
 import com.tatuas.android.neotask.thenCallable
+import com.tatuas.android.neotask.toBoolean
 import kotlinx.android.synthetic.main.activity_my.*
 
 class MyActivity : AppCompatActivity() {
@@ -16,7 +17,7 @@ class MyActivity : AppCompatActivity() {
         parallelButton.setOnClickListener {
             NeoTask.parallel(
                     NeoTask.callAsync(SampleCallable.StringCallable()),
-                    NeoTask.callAsync(SampleCallable.StringCallable()),
+                    NeoTask.callAsync(SampleCallable.VoidCallable()).toBoolean(),
                     NeoTask.callAsync(SampleCallable.StringCallable()),
                     NeoTask.callAsync(SampleCallable.StringCallable()),
                     NeoTask.callAsync(SampleCallable.StringCallable()))
@@ -28,6 +29,8 @@ class MyActivity : AppCompatActivity() {
                         toast(it.toString())
                     })
         }
+
+
 
         thenButton.setOnClickListener {
             NeoTask.callAsync(SampleCallable.StringCallable())
