@@ -1,11 +1,9 @@
 ext {
     kotlinVersion = "1.1.60"
-    libraryVersion = "1.0.0-beta4"
+    libraryVersion = "1.0.0-beta5"
 
     sdkMinVersion = 14
     sdkVersion = 26
-
-    preDexLibs = !project.hasProperty('disablePreDex')
 
     classpathes = [
             googleServices: "com.google.gms:google-services:3.1.0",
