@@ -1,7 +1,5 @@
-
-[![Release](https://jitpack.io/v/tatuas/NeoTask.svg?style=flat-square)](https://jitpack.io/#tatuas/NeoTask)
-
-[![CircleCI](https://circleci.com/gh/tatuas/NeoTask/tree/master.svg?style=svg)](https://circleci.com/gh/tatuas/NeoTask/tree/master)
+[![Release](https://jitpack.io/v/tatuas/NeoTask.svg)](https://jitpack.io/#tatuas/NeoTask)
+[![CircleCI](https://circleci.com/gh/tatuas/NeoTask/tree/master.svg?style=shield)](https://circleci.com/gh/tatuas/NeoTask/tree/master)
 
 # NeoTask
 
@@ -9,7 +7,7 @@ NeoTask is an extension library that treats Tasks API smarter. For example, you 
 
 # Features
 
-- Use Tasks API greatly smart, especially parallel or series execution.
+- You can use Tasks API greatly smart, especially parallel or series execution.
 
 - Tasks API allows nullable result, but NeoTask does not allow nullable result, just like RxJava2. And you can easily convert from nullable result task to non-null result task using this library.
 
@@ -98,7 +96,7 @@ NeoTask.parallel(
     FirebaseFirestore.getInstance().collection("users").add(user),
     FirebaseFirestore.getInstance().collection("settings").add(setting)
 ).addOnSuccessListener(this, {
-    val result = "${it.first}, ${it.second}, ${it.third}, ${it.fourth}, ${it.five}"
+    val result = "${it.first}, ${it.second}, ${it.third}"
     // Do something
   })
   .addOnFailureListener(this, {
