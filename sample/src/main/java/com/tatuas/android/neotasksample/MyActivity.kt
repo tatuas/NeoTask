@@ -30,8 +30,6 @@ class MyActivity : AppCompatActivity() {
                     })
         }
 
-
-
         thenButton.setOnClickListener {
             NeoTask.callAsync(SampleCallable.StringCallable())
                     .thenCallable { SampleCallable.StringCallable2("$it, additional") }

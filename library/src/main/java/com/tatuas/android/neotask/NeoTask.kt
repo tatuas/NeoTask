@@ -3,7 +3,7 @@ package com.tatuas.android.neotask
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.tatuas.android.neotask.NeoTaskUtils.assertResultNotNull
+import com.tatuas.android.neotask.NeoTaskAssertions.assertResultNotNull
 import java.util.concurrent.Callable
 import java.util.concurrent.Executor
 
