@@ -5,11 +5,20 @@
 
 # NeoTask
 
-NeoTask is an extension library that treats Tasks API smarter. For example, you can greatly simplify the code to perform asynchronous processing of the Task API in serial or parallel, or create Custom Task easily.
+NeoTask is an extension library that treats Tasks API smarter. For example, you can greatly simplify the code to perform asynchronous processing of the Tasks API in serial or parallel, or create Custom Task easily.
+
+# Features
+
+- Use Tasks API greatly smart, especially parallel or series execution.
+
+- Tasks API allows nullable result, but NeoTask does not allow nullable result, just like RxJava2. And you can easily convert from nullable result task to non-null result task using this library.
+
+- NeoTask is a lightweight library, so you can easily try out, and install.
 
 # Requirements
 
 - Android SDK API Level 14 or more
+
 - Android Project written in Kotlin
 
 # Recommended environment
@@ -18,7 +27,7 @@ NeoTask is an extension library that treats Tasks API smarter. For example, you 
 
 # About Tasks API
 
-Recommend to see the Firebase blog posts or Google I/O 2016 youtube.
+Recommend to see the Firebase blog posts or Google I/O 2016 YouTube.
 
 - https://firebase.googleblog.com/2016/09/become-a-firebase-taskmaster-part-1.html
 
@@ -30,34 +39,34 @@ Recommend to see the Firebase blog posts or Google I/O 2016 youtube.
 
 - https://www.youtube.com/watch?v=AJqakuas_6g
 
-Tasks API Guides from Google
+Tasks API Guides from Google.
 
 - https://developers.google.com/android/guides/tasks
 
 # Usage
 
-## Parallel Task Execution
+## Series Task Execution
+
+### Together with Firebase SDK
 
 ```kotlin
 
-NeoTask.parallel(
-    NeoTask.callAsync(SampleCallable.LongCallable()),
-    NeoTask.callAsync(SampleCallable.StringCallable()),
-    NeoTask.callAsync(SampleCallable.LongCallable()),
-    NeoTask.callAsync(SampleCallable.StringCallable()),
-    NeoTask.callAsync(SampleCallable.LongCallable()))
-  .addOnSuccessListener(this, {
-    val result = "${it.first}, ${it.second}, ${it.third}, ${it.fourth}, ${it.five}"
-    // Do something
+FirebaseAuth.getInstance().signInAnonymously()
+  .then { it.user.getIdToken(false) }
+  .addOnCompleteListener(this, {
+    if (it.isSuccessful) {
+      val result = it.result
+      // Do something
+    }
+    else {
+      val exception = it.exception
+      // Do something
+    }
   })
-  .addOnFailureListener(this, {
-    val exception = it
-    // Do something
-  })
-
+  
 ```
 
-## Series Task Execution
+### Together with custom Callable
 
 ```kotlin
 
@@ -74,6 +83,48 @@ NeoTask.callAsync(SampleCallable.StringCallable())
       val exception = it.exception
       // Do something
     }
+  })
+
+```
+
+## Parallel Task Execution
+
+### Together with Firebase SDK
+
+```kotlin
+
+NeoTask.parallel(
+    FirebaseFirestore.getInstance().collection("restaurants").add(restaurant1),
+    FirebaseFirestore.getInstance().collection("users").add(user),
+    FirebaseFirestore.getInstance().collection("settings").add(setting)
+).addOnSuccessListener(this, {
+    val result = "${it.first}, ${it.second}, ${it.third}, ${it.fourth}, ${it.five}"
+    // Do something
+  })
+  .addOnFailureListener(this, {
+    val exception = it
+    // Do something
+  })
+
+```
+
+### Together with custom Callable
+
+```kotlin
+
+NeoTask.parallel(
+    NeoTask.callAsync(SampleCallable.LongCallable()),
+    NeoTask.callAsync(SampleCallable.StringCallable()),
+    NeoTask.callAsync(SampleCallable.LongCallable()),
+    NeoTask.callAsync(SampleCallable.StringCallable()),
+    NeoTask.callAsync(SampleCallable.LongCallable()))
+  .addOnSuccessListener(this, {
+    val result = "${it.first}, ${it.second}, ${it.third}, ${it.fourth}, ${it.five}"
+    // Do something
+  })
+  .addOnFailureListener(this, {
+    val exception = it
+    // Do something
   })
 
 ```
@@ -96,7 +147,9 @@ allprojects {
 
 ```
 dependencies {
-    implementation "com.github.tatuas:NeoTask:{$latest_version}"
+    implementation("com.github.tatuas:NeoTask:{$latest_version}") {
+        transitive = true
+    }
 }
 ```
 
