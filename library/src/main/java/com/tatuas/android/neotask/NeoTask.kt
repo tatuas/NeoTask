@@ -15,6 +15,10 @@ object NeoTask {
     fun <R> callBlocking(callable: Callable<R>): Task<R> = Tasks.call(
             NeoTaskExecutors.CURRENT, callable)
 
+    fun <R> callAsync(func: () -> R): Task<R> = callAsync(Callable<R> { func.invoke() })
+
+    fun <R> callBlocking(func: () -> R): Task<R> = callBlocking(Callable<R> { func.invoke() })
+
     fun <R1, R2> parallel(task1: Task<R1>,
                           task2: Task<R2>): Task<Pair<R1, R2>> =
             parallel(NeoTaskExecutors.PARALLEL_DEFAULT, task1, task2)

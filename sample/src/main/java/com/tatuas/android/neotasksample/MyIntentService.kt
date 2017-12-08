@@ -6,6 +6,7 @@ import android.content.Intent
 import com.google.android.gms.tasks.OnCompleteListener
 import com.tatuas.android.neotask.NeoTask
 import com.tatuas.android.neotask.NeoTaskExecutors
+import com.tatuas.android.neotask.thenBlocking
 import com.tatuas.android.neotask.thenCallableBlocking
 import com.tatuas.android.neotasksample.Utils.log
 
@@ -16,9 +17,9 @@ class MyIntentService : IntentService("MyIntentService") {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-
         NeoTask.callBlocking(SampleCallable.StringCallable())
                 .thenCallableBlocking { SampleCallable.StringCallable2(it) }
+                .thenBlocking { NeoTask.callBlocking { "$it and hello" } }
                 .addOnCompleteListener(NeoTaskExecutors.CURRENT, OnCompleteListener {
                     if (it.isSuccessful) {
                         log(it.result)
