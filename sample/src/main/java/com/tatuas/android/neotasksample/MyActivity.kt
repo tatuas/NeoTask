@@ -16,7 +16,7 @@ class MyActivity : AppCompatActivity() {
 
         parallelButton.setOnClickListener {
             NeoTask.parallel(
-                    NeoTask.callAsync(SampleCallable.StringCallable()),
+                    NeoTask.callAsync { "string" },
                     NeoTask.callAsync(SampleCallable.VoidCallable()).toBoolean(),
                     NeoTask.callAsync(SampleCallable.StringCallable()),
                     NeoTask.callAsync(SampleCallable.StringCallable()),
