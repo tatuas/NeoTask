@@ -68,7 +68,7 @@ FirebaseAuth.getInstance().signInAnonymously()
 
 ```kotlin
 
-NeoTask.callAsync(SampleCallable.StringCallable())
+NeoTask.callAsync { "result" }
   .thenCallable {
     SampleCallable.StringCallable2("$it, additional")
   }
@@ -114,7 +114,7 @@ NeoTask.parallel(
     NeoTask.callAsync(SampleCallable.LongCallable()),
     NeoTask.callAsync(SampleCallable.StringCallable()),
     NeoTask.callAsync(SampleCallable.LongCallable()),
-    NeoTask.callAsync(SampleCallable.StringCallable()),
+    NeoTask.callAsync { "result" },
     NeoTask.callAsync(SampleCallable.LongCallable()))
   .addOnSuccessListener(this, {
     val result = "${it.first}, ${it.second}, ${it.third}, ${it.fourth}, ${it.five}"
@@ -145,7 +145,7 @@ allprojects {
 
 ```
 dependencies {
-    implementation("com.github.tatuas:NeoTask:{$latest_version}") {
+    implementation("com.github.tatuas:NeoTask:$latest_version") {
         transitive = true
     }
 }
