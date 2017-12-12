@@ -1,11 +1,11 @@
-apply from: rootProject.file('dependencies.gradle')
+apply from: rootProject.file("dependencies.gradle")
 
 subprojects { Project subProject ->
     buildscript {
         repositories {
             jcenter()
             google()
-            maven { url 'https://jitpack.io' }
+            maven { url repositoryUrls.jitpack }
         }
         dependencies {
             classpath classpathes.gradle
@@ -18,10 +18,10 @@ subprojects { Project subProject ->
     repositories {
         jcenter()
         google()
-        maven { url 'https://jitpack.io' }
+        maven { url repositoryUrls.jitpack }
     }
 
-    ext.preDexLibs = !project.hasProperty('disablePreDex')
+    ext.preDexLibs = !project.hasProperty("disablePreDex")
     project.plugins.whenPluginAdded { plugin ->
         if ("com.android.build.gradle.AppPlugin" == plugin.class.name) {
             project.android.dexOptions.preDexLibraries = preDexLibs
