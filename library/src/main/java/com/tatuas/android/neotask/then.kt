@@ -4,19 +4,17 @@ import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.tatuas.android.neotask.NeoTaskAssertions.assertResultNotNull
 import java.util.concurrent.Callable
+import java.util.concurrent.Executor
 
 inline fun <R1, R2> Task<R1>.then(crossinline generateNextTask: (R1) -> Task<R2>): Task<R2> =
-        continueWithTask(NeoTaskExecutors.THEN_DEFAULT, Continuation {
-            if (it.isSuccessful) {
-                assertResultNotNull(it)
-                generateNextTask(it.result)
-            } else {
-                throw it.exception ?: NeoTaskNullThrowableException()
-            }
-        })
+        then(NeoTaskExecutors.THEN_DEFAULT, generateNextTask)
 
 inline fun <R1, R2> Task<R1>.thenBlocking(crossinline generateNextTask: (R1) -> Task<R2>): Task<R2> =
-        continueWithTask(NeoTaskExecutors.CURRENT, Continuation {
+        then(NeoTaskExecutors.CURRENT, generateNextTask)
+
+inline fun <R1, R2> Task<R1>.then(executor: Executor,
+                                  crossinline generateNextTask: (R1) -> Task<R2>): Task<R2> =
+        continueWithTask(executor, Continuation {
             if (it.isSuccessful) {
                 assertResultNotNull(it)
                 generateNextTask(it.result)
@@ -26,20 +24,17 @@ inline fun <R1, R2> Task<R1>.thenBlocking(crossinline generateNextTask: (R1) -> 
         })
 
 inline fun <R1, R2> Task<R1>.thenCallable(crossinline generateNextCallable: (R1) -> Callable<R2>): Task<R2> =
-        continueWithTask(NeoTaskExecutors.THEN_DEFAULT, Continuation {
-            if (it.isSuccessful) {
-                assertResultNotNull(it)
-                NeoTask.callBlocking(generateNextCallable(it.result))
-            } else {
-                throw it.exception ?: NeoTaskNullThrowableException()
-            }
-        })
+        thenCallable(NeoTaskExecutors.THEN_DEFAULT, generateNextCallable)
 
 inline fun <R1, R2> Task<R1>.thenCallableBlocking(crossinline generateNextCallable: (R1) -> Callable<R2>): Task<R2> =
-        continueWithTask(NeoTaskExecutors.CURRENT, Continuation {
+        thenCallable(NeoTaskExecutors.CURRENT, generateNextCallable)
+
+inline fun <R1, R2> Task<R1>.thenCallable(executor: Executor,
+                                          crossinline generateNextCallable: (R1) -> Callable<R2>): Task<R2> =
+        continueWithTask(executor, Continuation {
             if (it.isSuccessful) {
                 assertResultNotNull(it)
-                NeoTask.callBlocking(generateNextCallable(it.result))
+                NeoTask.blocking(generateNextCallable(it.result))
             } else {
                 throw it.exception ?: NeoTaskNullThrowableException()
             }

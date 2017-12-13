@@ -2,8 +2,10 @@ package com.tatuas.android.neotasksample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Toast
 import com.tatuas.android.neotask.NeoTask
+import com.tatuas.android.neotask.then
 import com.tatuas.android.neotask.thenCallable
 import com.tatuas.android.neotask.toBoolean
 import kotlinx.android.synthetic.main.activity_my.*
@@ -16,11 +18,11 @@ class MyActivity : AppCompatActivity() {
 
         parallelButton.setOnClickListener {
             NeoTask.parallel(
-                    NeoTask.callAsync { "string" },
-                    NeoTask.callAsync(SampleCallable.VoidCallable()).toBoolean(),
-                    NeoTask.callAsync(SampleCallable.StringCallable()),
-                    NeoTask.callAsync(SampleCallable.StringCallable()),
-                    NeoTask.callAsync(SampleCallable.StringCallable()))
+                    NeoTask.async { "string" },
+                    NeoTask.async(SampleCallable.VoidCallable()).toBoolean(),
+                    NeoTask.async(SampleCallable.StringCallable()),
+                    NeoTask.async(SampleCallable.StringCallable()),
+                    NeoTask.async(SampleCallable.StringCallable()))
                     .addOnSuccessListener(this, {
                         toast(listOf(it.first, it.second, it.third, it.fourth, it.five)
                                 .joinToString(separator = ",", prefix = "[", postfix = "]"))
@@ -31,8 +33,11 @@ class MyActivity : AppCompatActivity() {
         }
 
         thenButton.setOnClickListener {
-            NeoTask.callAsync(SampleCallable.StringCallable())
-                    .thenCallable { SampleCallable.StringCallable2("$it, additional") }
+            NeoTask.main { progress.visibility = View.VISIBLE }
+                    .thenCallable { SampleCallable.StringCallable() }
+                    .then { NeoTask.async { "task1Value: $it" } }
+                    .thenCallable { SampleCallable.StringCallable2("$it, task2Value: ") }
+                    .then { NeoTask.main { it.also { progress.visibility = View.GONE } } }
                     .addOnCompleteListener(this, {
                         if (it.isSuccessful) {
                             toast(it.result.toString())

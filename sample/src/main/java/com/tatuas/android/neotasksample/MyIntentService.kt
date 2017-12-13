@@ -17,9 +17,9 @@ class MyIntentService : IntentService("MyIntentService") {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        NeoTask.callBlocking(SampleCallable.StringCallable())
+        NeoTask.blocking(SampleCallable.StringCallable())
                 .thenCallableBlocking { SampleCallable.StringCallable2(it) }
-                .thenBlocking { NeoTask.callBlocking { "$it and hello" } }
+                .thenBlocking { NeoTask.blocking { "$it and hello" } }
                 .addOnCompleteListener(NeoTaskExecutors.CURRENT, OnCompleteListener {
                     if (it.isSuccessful) {
                         log(it.result)

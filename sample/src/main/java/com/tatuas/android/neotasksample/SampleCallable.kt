@@ -46,7 +46,7 @@ object SampleCallable {
             log("StringCallable2:start: ${Thread.currentThread()}")
             sleep()
             log("StringCallable2:finish: ${Thread.currentThread()}")
-            return "string" + value
+            return value + "string"
         }
     }
 
