@@ -21,7 +21,5 @@ ext {
             kotlin                : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",
             gmsTask               : "com.google.android.gms:play-services-tasks:11.6.0",
             junit                 : "junit:junit:4.12",
-            androidTestRunner     : "com.android.support.test:runner:1.0.1",
-            androidJUnitTestRunner: "android.support.test.runner.AndroidJUnitRunner",
     ]
 }
