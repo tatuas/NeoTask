@@ -9,15 +9,25 @@ import java.util.concurrent.Executor
 
 object NeoTask {
 
-    fun <R> callAsync(callable: Callable<R>): Task<R> = Tasks.call(
-            NeoTaskExecutors.ASYNC_DEFAULT, callable)
+    /**
+     * Task creation
+     */
 
-    fun <R> callBlocking(callable: Callable<R>): Task<R> = Tasks.call(
-            NeoTaskExecutors.CURRENT, callable)
+    private fun <R> async(callable: Callable<R>): Task<R> = Tasks.call(NeoTaskExecutors.ASYNC_DEFAULT, callable)
 
-    fun <R> callAsync(func: () -> R): Task<R> = callAsync(Callable<R> { func.invoke() })
+    private fun <R> blocking(callable: Callable<R>): Task<R> = Tasks.call(NeoTaskExecutors.CURRENT, callable)
 
-    fun <R> callBlocking(func: () -> R): Task<R> = callBlocking(Callable<R> { func.invoke() })
+    private fun <R> main(callable: Callable<R>): Task<R> = Tasks.call(callable)
+
+    fun <R> async(func: () -> R): Task<R> = async(Callable<R> { func.invoke() })
+
+    fun <R> blocking(func: () -> R): Task<R> = blocking(Callable<R> { func.invoke() })
+
+    fun <R> main(func: () -> R): Task<R> = main(Callable<R> { func.invoke() })
+
+    /**
+     * Parallel execution
+     */
 
     fun <R1, R2> parallel(task1: Task<R1>,
                           task2: Task<R2>): Task<Pair<R1, R2>> =
