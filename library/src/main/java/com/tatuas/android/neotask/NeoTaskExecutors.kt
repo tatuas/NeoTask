@@ -20,14 +20,14 @@ object NeoTaskExecutors {
     val PARALLEL_DEFAULT: Executor = Executors.newFixedThreadPool(2)
 
     @JvmField
-    val CONTINUE_WITH_TASK_DEFAULT: Executor = Executors.newFixedThreadPool(2)
+    val THEN_ASYNC_DEFAULT: Executor = Executors.newFixedThreadPool(2)
 
     /**
      * If this method is called from the UI thread, it automatically switches to background execution.
      * Otherwise, it will run on the called Thread.
      */
-    fun getContinueWithTaskExecutor(): Executor = if (Thread.currentThread() == Looper.getMainLooper().thread) {
-        CONTINUE_WITH_TASK_DEFAULT
+    fun getThenExecutor(): Executor = if (Thread.currentThread() == Looper.getMainLooper().thread) {
+        THEN_ASYNC_DEFAULT
     } else {
         CURRENT
     }
