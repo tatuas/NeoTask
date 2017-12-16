@@ -4,11 +4,7 @@ import android.app.IntentService
 import android.content.Context
 import android.content.Intent
 import com.google.android.gms.tasks.OnCompleteListener
-import com.tatuas.android.neotask.NeoTask
-import com.tatuas.android.neotask.NeoTaskExecutors
-import com.tatuas.android.neotask.thenBlocking
-import com.tatuas.android.neotask.thenCallableBlocking
-import com.tatuas.android.neotasksample.Utils.log
+import com.tatuas.android.neotask.*
 
 class MyIntentService : IntentService("MyIntentService") {
 
@@ -17,15 +13,31 @@ class MyIntentService : IntentService("MyIntentService") {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        NeoTask.blocking(SampleCallable.StringCallable())
-                .thenCallableBlocking { SampleCallable.StringCallable2(it) }
-                .thenBlocking { NeoTask.blocking { "$it and hello" } }
+
+        MyUtils.log("IntentService Start: ${Thread.currentThread()}")
+
+        NeoTask.blocking { MyUtils.sleep() }
+                .thenAwait { MyUtils.createVoidTask().toBoolean() }
+                .thenBlocking {
+                    MyUtils.log("start:1 ${Thread.currentThread()}")
+                    MyUtils.sleep()
+                    MyUtils.log("stop:1 ${Thread.currentThread()}")
+                    "$it, string2"
+                }
+                .thenBlocking {
+                    MyUtils.log("start:2 ${Thread.currentThread()}")
+                    MyUtils.sleep()
+                    MyUtils.log("stop:2 ${Thread.currentThread()}")
+                    "$it ,string3"
+                }
                 .addOnCompleteListener(NeoTaskExecutors.CURRENT, OnCompleteListener {
                     if (it.isSuccessful) {
-                        log(it.result)
+                        MyUtils.log("result: ${it.result}")
                     } else {
-                        log(it.toString())
+                        MyUtils.log("exception: ${it.exception}")
                     }
                 })
+
+        MyUtils.log("IntentService Stop: ${Thread.currentThread()}")
     }
 }

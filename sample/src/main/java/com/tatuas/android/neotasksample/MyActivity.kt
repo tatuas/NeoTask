@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
-import com.tatuas.android.neotask.NeoTask
-import com.tatuas.android.neotask.then
-import com.tatuas.android.neotask.thenCallable
-import com.tatuas.android.neotask.toBoolean
+import com.tatuas.android.neotask.*
 import kotlinx.android.synthetic.main.activity_my.*
 
 class MyActivity : AppCompatActivity() {
@@ -18,11 +15,26 @@ class MyActivity : AppCompatActivity() {
 
         parallelButton.setOnClickListener {
             NeoTask.parallel(
-                    NeoTask.async { "string" },
-                    NeoTask.async(SampleCallable.VoidCallable()).toBoolean(),
-                    NeoTask.async(SampleCallable.StringCallable()),
-                    NeoTask.async(SampleCallable.StringCallable()),
-                    NeoTask.async(SampleCallable.StringCallable()))
+                    NeoTask.async {
+                        MyUtils.log("start: {${Thread.currentThread()}")
+                        MyUtils.sleep()
+                        MyUtils.log("stop: {${Thread.currentThread()}")
+                        "string1"
+                    },
+                    MyUtils.createVoidTask().toBoolean(),
+                    NeoTask.async {
+                        MyUtils.log("start: {${Thread.currentThread()}")
+                        MyUtils.sleep()
+                        MyUtils.log("stop: {${Thread.currentThread()}")
+                        "string2"
+                    },
+                    MyUtils.createVoidTask().toBoolean(),
+                    NeoTask.async {
+                        MyUtils.log("start: {${Thread.currentThread()}")
+                        MyUtils.sleep()
+                        MyUtils.log("stop: {${Thread.currentThread()}")
+                        "string3"
+                    })
                     .addOnSuccessListener(this, {
                         toast(listOf(it.first, it.second, it.third, it.fourth, it.five)
                                 .joinToString(separator = ",", prefix = "[", postfix = "]"))
@@ -34,10 +46,37 @@ class MyActivity : AppCompatActivity() {
 
         thenButton.setOnClickListener {
             NeoTask.main { progress.visibility = View.VISIBLE }
-                    .thenCallable { SampleCallable.StringCallable() }
-                    .then { NeoTask.async { "task1Value: $it" } }
-                    .thenCallable { SampleCallable.StringCallable2("$it, task2Value: ") }
-                    .then { NeoTask.main { it.also { progress.visibility = View.GONE } } }
+                    .then {
+                        MyUtils.createVoidTask().toBoolean()
+                    }
+                    .then {
+                        NeoTask.blocking { "$it, blocking" }
+                    }
+                    .then {
+                        NeoTask.async { "$it, async" }
+                    }
+                    .thenAsync {
+                        MyUtils.log("start: ${Thread.currentThread()}")
+                        MyUtils.sleep()
+                        MyUtils.log("stop: ${Thread.currentThread()}")
+                        "$it, string1"
+                    }
+                    .thenAsync {
+                        MyUtils.log("start: ${Thread.currentThread()}")
+                        MyUtils.sleep()
+                        MyUtils.log("stop: ${Thread.currentThread()}")
+                        "$it, string2"
+                    }
+                    .thenAsync {
+                        MyUtils.log("start: ${Thread.currentThread()}")
+                        MyUtils.sleep()
+                        MyUtils.log("stop: ${Thread.currentThread()}")
+                        "$it, string3"
+                    }
+                    .thenMain {
+                        MyUtils.log("main")
+                        it.also { progress.visibility = View.GONE }
+                    }
                     .addOnCompleteListener(this, {
                         if (it.isSuccessful) {
                             toast(it.result.toString())

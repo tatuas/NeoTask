@@ -13,15 +13,15 @@ object NeoTask {
      * Task creation
      */
 
-    fun <R> async(callable: Callable<R>): Task<R> = Tasks.call(NeoTaskExecutors.ASYNC_DEFAULT, callable)
+    private fun <R> async(callable: Callable<R>): Task<R> = Tasks.call(NeoTaskExecutors.ASYNC_DEFAULT, callable)
+
+    private fun <R> blocking(callable: Callable<R>): Task<R> = Tasks.call(NeoTaskExecutors.CURRENT, callable)
+
+    private fun <R> main(callable: Callable<R>): Task<R> = Tasks.call(callable)
 
     fun <R> async(func: () -> R): Task<R> = async(Callable<R> { func.invoke() })
 
-    fun <R> blocking(callable: Callable<R>): Task<R> = Tasks.call(NeoTaskExecutors.CURRENT, callable)
-
     fun <R> blocking(func: () -> R): Task<R> = blocking(Callable<R> { func.invoke() })
-
-    fun <R> main(callable: Callable<R>): Task<R> = Tasks.call(callable)
 
     fun <R> main(func: () -> R): Task<R> = main(Callable<R> { func.invoke() })
 

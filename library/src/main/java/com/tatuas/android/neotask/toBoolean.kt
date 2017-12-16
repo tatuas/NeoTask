@@ -2,10 +2,10 @@ package com.tatuas.android.neotask
 
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import java.util.concurrent.Callable
 
-fun Task<Void>.toBoolean(): Task<Boolean> = continueWithTask(
-        NeoTaskExecutors.THEN_DEFAULT, Continuation { NeoTask.blocking(Callable { true }) })
-
-fun Task<Void>.toBooleanBlocking(): Task<Boolean> = continueWithTask(
-        NeoTaskExecutors.CURRENT, Continuation { NeoTask.blocking(Callable { true }) })
+fun Task<Void>.toBoolean(): Task<Boolean> {
+    val executor = NeoTaskExecutors.getContinueWithTaskExecutor()
+    return continueWithTask(executor, Continuation { Tasks.call(executor, Callable { true }) })
+}
