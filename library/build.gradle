@@ -20,6 +20,18 @@ android {
             minifyEnabled false
         }
     }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events "passed", "skipped", "failed", "standardOut", "standardError"
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -28,6 +40,9 @@ dependencies {
     api implementations.gmsTask
 
     testImplementation implementations.junit
+    testImplementation implementations.robolectric
+    testImplementation implementations.assertJCore
+    testImplementation implementations.awaitility
 }
 
 repositories {
