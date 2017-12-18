@@ -17,9 +17,12 @@ ext {
     ]
 
     implementations = [
-            appCompatV7           : "com.android.support:appcompat-v7:26.1.0",
-            kotlin                : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",
-            gmsTask               : "com.google.android.gms:play-services-tasks:11.6.0",
-            junit                 : "junit:junit:4.12",
+            appCompatV7: "com.android.support:appcompat-v7:26.1.0",
+            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",
+            gmsTask    : "com.google.android.gms:play-services-tasks:11.6.0",
+            junit      : "junit:junit:4.12",
+            robolectric: "org.robolectric:robolectric:3.5.1",
+            assertJCore: "org.assertj:assertj-core:3.8.0",
+            awaitility : "org.awaitility:awaitility:3.0.0",
     ]
 }

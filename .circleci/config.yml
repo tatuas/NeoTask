@@ -18,6 +18,9 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
+          name: Library UnitTest
+          command: ./gradlew clean library:testReleaseUnitTest
+      - run:
           name: Simply assemble
           command: ./gradlew clean assembleRelease -PdisablePreDex
       - store_artifacts:
