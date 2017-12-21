@@ -86,9 +86,7 @@ class MyActivity : AppCompatActivity() {
                     })
         }
 
-        intentServiceButton.setOnClickListener {
-            startService(MyIntentService.createService(this))
-        }
+        intentServiceButton.setOnClickListener { MyJobIntentService.enqueueWork(this) }
     }
 
     private fun toast(message: String) {
