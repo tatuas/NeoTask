@@ -12,6 +12,7 @@ subprojects { Project subProject ->
             classpath classpathes.googleServices
             classpath classpathes.kotlin
             classpath classpathes.maven
+            classpath classpathes.jacoco
         }
     }
 

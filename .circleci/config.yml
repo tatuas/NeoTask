@@ -23,6 +23,12 @@ jobs:
       - run:
           name: Simply assemble
           command: ./gradlew clean assembleRelease -PdisablePreDex
+      - run:
+          name: Jacoco
+          command: ./gradlew clean jacocoTestReportRelease
+      - run:
+          name: Codecov
+          command: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: app/build/reports
           destination: reports
