@@ -14,6 +14,7 @@ ext {
             gradle        : "com.android.tools.build:gradle:3.0.1",
             kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
             maven         : "com.github.dcendents:android-maven-gradle-plugin:2.0",
+            jacoco        : "com.vanniktech:gradle-android-junit-jacoco-plugin:0.11.0",
     ]
 
     implementations = [
