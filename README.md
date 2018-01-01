@@ -1,5 +1,6 @@
 [![Release](https://jitpack.io/v/tatuas/NeoTask.svg)](https://jitpack.io/#tatuas/NeoTask)
 [![CircleCI](https://circleci.com/gh/tatuas/NeoTask/tree/master.svg?style=shield)](https://circleci.com/gh/tatuas/NeoTask/tree/master)
+[![codecov](https://codecov.io/gh/tatuas/NeoTask/branch/master/graph/badge.svg)](https://codecov.io/gh/tatuas/NeoTask)
 
 # NeoTask
 
@@ -68,9 +69,9 @@ FirebaseAuth.getInstance().signInAnonymously()
 
 ```kotlin
 
-NeoTask.callAsync { "result" }
-  .thenCallable {
-    SampleCallable.StringCallable2("$it, additional")
+NeoTask.async { "result" }
+  .thenAsync {
+    listOf(it, "result2").joinToString(separator = ",")
   }
   .addOnCompleteListener(this, {
     if (it.isSuccessful) {
