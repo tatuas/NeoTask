@@ -12,7 +12,6 @@ object NeoTask {
     /**
      * Task creation
      */
-
     private fun <R> async(callable: Callable<R>): Task<R> = Tasks.call(NeoTaskExecutors.ASYNC_DEFAULT, callable)
 
     private fun <R> blocking(callable: Callable<R>): Task<R> = Tasks.call(NeoTaskExecutors.CURRENT, callable)
@@ -30,6 +29,43 @@ object NeoTask {
      */
     fun <R> await(task: Task<R>, awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
         return Tasks.await(task, awaitTimeout.time, awaitTimeout.unit)
+    }
+
+    /**
+     * Sequential await execution
+     */
+    fun <T1, R> awaitSequential(firstTask: Task<T1>, secondTask: (T1) -> Task<R>,
+                                awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
+        val t1 = await(firstTask, awaitTimeout)
+        return await(secondTask.invoke(t1), awaitTimeout)
+    }
+
+    fun <T1, T2, R> awaitSequential(firstTask: Task<T1>, secondTask: (T1) -> Task<T2>,
+                                    thirdTask: (T2) -> Task<R>,
+                                    awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
+        val t1 = await(firstTask, awaitTimeout)
+        val t2 = await(secondTask.invoke(t1), awaitTimeout)
+        return await(thirdTask.invoke(t2), AwaitTimeout.DEFAULT)
+    }
+
+    fun <T1, T2, T3, R> awaitSequential(firstTask: Task<T1>, secondTask: (T1) -> Task<T2>,
+                                        thirdTask: (T2) -> Task<T3>, fourthTask: (T3) -> Task<R>,
+                                        awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
+        val t1 = await(firstTask, awaitTimeout)
+        val t2 = await(secondTask.invoke(t1), awaitTimeout)
+        val t3 = await(thirdTask.invoke(t2), awaitTimeout)
+        return await(fourthTask.invoke(t3), AwaitTimeout.DEFAULT)
+    }
+
+    fun <T1, T2, T3, T4, R> awaitSequential(firstTask: Task<T1>, secondTask: (T1) -> Task<T2>,
+                                            thirdTask: (T2) -> Task<T3>, fourthTask: (T3) -> Task<T4>,
+                                            fifthTask: (T4) -> Task<R>,
+                                            awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
+        val t1 = await(firstTask, awaitTimeout)
+        val t2 = await(secondTask.invoke(t1), awaitTimeout)
+        val t3 = await(thirdTask.invoke(t2), awaitTimeout)
+        val t4 = await(fourthTask.invoke(t3), awaitTimeout)
+        return await(fifthTask.invoke(t4), AwaitTimeout.DEFAULT)
     }
 
     /**
