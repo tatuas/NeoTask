@@ -6,15 +6,16 @@ import org.assertj.core.api.Assertions
 import org.awaitility.Awaitility
 import java.util.concurrent.TimeUnit
 
-internal fun <T> assertEquals(expect: T, task: Task<T>) {
-    executeAsync {
-        val result = Tasks.await(task)
-        true.also { Assertions.assertThat(expect).isEqualTo(result) }
-    }
+fun <T> assertEquals(expect: T, actualTask: Task<T>) {
+    assertEquals(expect, { Tasks.await(actualTask) })
 }
 
-private fun executeAsync(assertion: () -> Boolean) {
+fun <T> assertEquals(expect: T, actualTaskInline: () -> T) {
     Awaitility.await()
             .atMost(10L, TimeUnit.SECONDS)
-            .until { true.also { assertion.invoke() } }
+            .until {
+                true.also {
+                    Assertions.assertThat(actualTaskInline.invoke()).isEqualTo(expect)
+                }
+            }
 }
