@@ -26,9 +26,15 @@ object NeoTask {
     fun <R> main(func: () -> R): Task<R> = main(Callable<R> { func.invoke() })
 
     /**
+     * Wrapped await
+     */
+    fun <R> await(task: Task<R>, awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
+        return Tasks.await(task, awaitTimeout.time, awaitTimeout.unit)
+    }
+
+    /**
      * Parallel execution
      */
-
     fun <R1, R2> parallel(task1: Task<R1>,
                           task2: Task<R2>): Task<Pair<R1, R2>> =
             parallel(NeoTaskExecutors.PARALLEL_DEFAULT, task1, task2)
