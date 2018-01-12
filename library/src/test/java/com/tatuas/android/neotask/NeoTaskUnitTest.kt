@@ -1,10 +1,13 @@
 package com.tatuas.android.neotask
 
 import com.tatuas.android.neotask.util.assertEquals
+import org.assertj.core.api.Assertions
+import org.awaitility.Awaitility
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
@@ -31,6 +34,21 @@ class NeoTaskUnitTest {
     }
 
     @Test
+    fun checkAwaitException() {
+        Awaitility.await()
+                .atMost(10L, TimeUnit.SECONDS)
+                .until {
+                    true.also {
+                        try {
+                            NeoTask.await(NeoTask.async { throw IllegalStateException() })
+                        } catch (e: Exception) {
+                            Assertions.assertThat(e::class.java).isEqualTo(IllegalStateException::class.java)
+                        }
+                    }
+                }
+    }
+
+    @Test
     fun checkAwaitSequentialPair() {
         assertEquals("ab", {
             NeoTask.awaitSequential(
@@ -47,6 +65,25 @@ class NeoTaskUnitTest {
                     { NeoTask.async { it + "b" } },
                     { NeoTask.async { it + "c" } })
         })
+    }
+
+    @Test
+    fun checkAwaitSequentialTripleException() {
+        Awaitility.await()
+                .atMost(10L, TimeUnit.SECONDS)
+                .until {
+                    true.also {
+                        try {
+                            NeoTask.awaitSequential(
+                                    NeoTask.async { "a" },
+                                    { NeoTask.async { throw IllegalStateException() } },
+                                    { NeoTask.async { "hello" } })
+                        } catch (e: Exception) {
+                            Assertions.assertThat(e::class.java)
+                                    .isEqualTo(IllegalStateException::class.java)
+                        }
+                    }
+                }
     }
 
     @Test
