@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.tatuas.android.neotask.NeoTaskAssertions.assertResultNotNull
 import java.util.concurrent.Callable
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executor
 
 object NeoTask {
@@ -28,7 +29,11 @@ object NeoTask {
      * Wrapped await
      */
     fun <R> await(task: Task<R>, awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
-        return Tasks.await(task, awaitTimeout.time, awaitTimeout.unit)
+        return try {
+            Tasks.await(task, awaitTimeout.time, awaitTimeout.unit)
+        } catch (e: ExecutionException) {
+            throw e.cause ?: e
+        }
     }
 
     /**
