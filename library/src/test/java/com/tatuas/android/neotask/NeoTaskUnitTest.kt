@@ -26,6 +26,11 @@ class NeoTaskUnitTest {
     }
 
     @Test
+    fun checkAwait() {
+        assertEquals("await:equals2", { NeoTask.await(NeoTask.async { "await:equals2" }) })
+    }
+
+    @Test
     fun checkParallelPair() {
         assertEquals(Pair("a", "b"),
                 NeoTask.parallel(
