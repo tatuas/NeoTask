@@ -31,6 +31,48 @@ class NeoTaskUnitTest {
     }
 
     @Test
+    fun checkAwaitSequentialPair() {
+        assertEquals("ab", {
+            NeoTask.awaitSequential(
+                    NeoTask.async { "a" },
+                    { NeoTask.async { it + "b" } })
+        })
+    }
+
+    @Test
+    fun checkAwaitSequentialTriple() {
+        assertEquals("abc", {
+            NeoTask.awaitSequential(
+                    NeoTask.async { "a" },
+                    { NeoTask.async { it + "b" } },
+                    { NeoTask.async { it + "c" } })
+        })
+    }
+
+    @Test
+    fun checkAwaitSequentialQuartet() {
+        assertEquals("abcd", {
+            NeoTask.awaitSequential(
+                    NeoTask.async { "a" },
+                    { NeoTask.async { it + "b" } },
+                    { NeoTask.async { it + "c" } },
+                    { NeoTask.async { it + "d" } })
+        })
+    }
+
+    @Test
+    fun checkAwaitSequentialQuintet() {
+        assertEquals("abcde", {
+            NeoTask.awaitSequential(
+                    NeoTask.async { "a" },
+                    { NeoTask.async { it + "b" } },
+                    { NeoTask.async { it + "c" } },
+                    { NeoTask.async { it + "d" } },
+                    { NeoTask.async { it + "e" } })
+        })
+    }
+
+    @Test
     fun checkParallelPair() {
         assertEquals(Pair("a", "b"),
                 NeoTask.parallel(

@@ -19,6 +19,18 @@ class MyJobIntentService : JobIntentService() {
     override fun onHandleWork(intent: Intent) {
         MyUtils.log("JobIntentService Start: ${Thread.currentThread()}")
 
+        try {
+            val result = NeoTask.awaitSequential(
+                    NeoTask.async { "result1" },
+                    { NeoTask.async { it + "result2" } },
+                    { NeoTask.async { it + "result3" } },
+                    { NeoTask.async { it + "result4" } },
+                    { NeoTask.async { it + "result5" } })
+            MyUtils.log(result)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         NeoTask.blocking { MyUtils.sleep() }
                 .thenAwait { MyUtils.createVoidTask().toBoolean() }
                 .thenBlocking {
