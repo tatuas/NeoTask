@@ -65,7 +65,7 @@ FirebaseAuth.getInstance().signInAnonymously()
   
 ```
 
-### Together with custom Callable
+### Together with custom task
 
 ```kotlin
 
@@ -107,16 +107,16 @@ NeoTask.parallel(
 
 ```
 
-### Together with custom Callable
+### Together with custom task
 
 ```kotlin
 
 NeoTask.parallel(
-    NeoTask.callAsync(SampleCallable.LongCallable()),
-    NeoTask.callAsync(SampleCallable.StringCallable()),
-    NeoTask.callAsync(SampleCallable.LongCallable()),
-    NeoTask.callAsync { "result" },
-    NeoTask.callAsync(SampleCallable.LongCallable()))
+    NeoTask.async { "result1" },
+    NeoTask.async { "result2" },
+    NeoTask.async { "result3" },
+    NeoTask.async { "result4" },
+    NeoTask.async { "result5" })
   .addOnSuccessListener(this, {
     val result = "${it.first}, ${it.second}, ${it.third}, ${it.fourth}, ${it.five}"
     // Do something
@@ -125,6 +125,26 @@ NeoTask.parallel(
     val exception = it
     // Do something
   })
+
+```
+
+## Await task execution
+
+### Single await task execution
+
+```kotlin
+
+val idToken = NeoTask.await(firebaseUser.getIdToken(false), AwaitTimeout.seconds(30))
+
+```
+
+### Sequential await task execution
+
+```kotlin
+
+val logging = NeoTask.awaitSequential(
+     NeoTask.await(firebaseUser.getIdToken(false), AwaitTimeout.seconds(30)),
+     NeoTask.async { "token: " + it.token  })
 
 ```
 
