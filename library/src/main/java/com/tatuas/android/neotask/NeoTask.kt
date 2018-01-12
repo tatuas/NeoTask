@@ -71,67 +71,41 @@ object NeoTask {
     /**
      * Parallel execution
      */
-    fun <R1, R2> parallel(task1: Task<R1>,
-                          task2: Task<R2>): Task<Pair<R1, R2>> =
-            parallel(NeoTaskExecutors.PARALLEL_DEFAULT, task1, task2)
+    fun <R1, R2> parallel(task1: Task<R1>, task2: Task<R2>,
+                          executor: Executor = NeoTaskExecutors.PARALLEL_DEFAULT): Task<Pair<R1, R2>> {
+        return Tasks.whenAll(task1, task2)
+                .continueWith(executor, Continuation {
+                    assertResultNotNull(task1, task2)
+                    Pair(task1.result, task2.result)
+                })
+    }
 
-    fun <R1, R2, R3> parallel(task1: Task<R1>,
-                              task2: Task<R2>,
-                              task3: Task<R3>): Task<Triple<R1, R2, R3>> =
-            parallel(NeoTaskExecutors.PARALLEL_DEFAULT, task1, task2, task3)
+    fun <R1, R2, R3> parallel(task1: Task<R1>, task2: Task<R2>, task3: Task<R3>,
+                              executor: Executor = NeoTaskExecutors.PARALLEL_DEFAULT): Task<Triple<R1, R2, R3>> {
+        return Tasks.whenAll(task1, task2, task3)
+                .continueWith(executor, Continuation {
+                    assertResultNotNull(task1, task2, task3)
+                    Triple(task1.result, task2.result, task3.result)
+                })
+    }
 
-    fun <R1, R2, R3, R4> parallel(task1: Task<R1>,
-                                  task2: Task<R2>,
-                                  task3: Task<R3>,
-                                  task4: Task<R4>): Task<NeoTaskQuartet<R1, R2, R3, R4>> =
-            parallel(NeoTaskExecutors.PARALLEL_DEFAULT, task1, task2, task3, task4)
+    fun <R1, R2, R3, R4> parallel(task1: Task<R1>, task2: Task<R2>, task3: Task<R3>, task4: Task<R4>,
+                                  executor: Executor = NeoTaskExecutors.PARALLEL_DEFAULT)
+            : Task<NeoTaskQuartet<R1, R2, R3, R4>> {
+        return Tasks.whenAll(task1, task2, task3, task4)
+                .continueWith(executor, Continuation {
+                    assertResultNotNull(task1, task2, task3, task4)
+                    NeoTaskQuartet(task1.result, task2.result, task3.result, task4.result)
+                })
+    }
 
-    fun <R1, R2, R3, R4, R5> parallel(task1: Task<R1>,
-                                      task2: Task<R2>,
-                                      task3: Task<R3>,
-                                      task4: Task<R4>,
-                                      task5: Task<R5>): Task<NeoTaskQuintet<R1, R2, R3, R4, R5>> =
-            parallel(NeoTaskExecutors.PARALLEL_DEFAULT, task1, task2, task3, task4, task5)
-
-    fun <R1, R2> parallel(executor: Executor,
-                          task1: Task<R1>,
-                          task2: Task<R2>): Task<Pair<R1, R2>> =
-            Tasks.whenAll(task1, task2)
-                    .continueWith(executor, Continuation {
-                        assertResultNotNull(task1, task2)
-                        Pair(task1.result, task2.result)
-                    })
-
-    fun <R1, R2, R3> parallel(executor: Executor,
-                              task1: Task<R1>,
-                              task2: Task<R2>,
-                              task3: Task<R3>): Task<Triple<R1, R2, R3>> =
-            Tasks.whenAll(task1, task2, task3)
-                    .continueWith(executor, Continuation {
-                        assertResultNotNull(task1, task2, task3)
-                        Triple(task1.result, task2.result, task3.result)
-                    })
-
-    fun <R1, R2, R3, R4> parallel(executor: Executor,
-                                  task1: Task<R1>,
-                                  task2: Task<R2>,
-                                  task3: Task<R3>,
-                                  task4: Task<R4>): Task<NeoTaskQuartet<R1, R2, R3, R4>> =
-            Tasks.whenAll(task1, task2, task3, task4)
-                    .continueWith(executor, Continuation {
-                        assertResultNotNull(task1, task2, task3, task4)
-                        NeoTaskQuartet(task1.result, task2.result, task3.result, task4.result)
-                    })
-
-    fun <R1, R2, R3, R4, R5> parallel(executor: Executor,
-                                      task1: Task<R1>,
-                                      task2: Task<R2>,
-                                      task3: Task<R3>,
-                                      task4: Task<R4>,
-                                      task5: Task<R5>): Task<NeoTaskQuintet<R1, R2, R3, R4, R5>> =
-            Tasks.whenAll(task1, task2, task3, task4, task5)
-                    .continueWith(executor, Continuation {
-                        assertResultNotNull(task1, task2, task3, task4, task5)
-                        NeoTaskQuintet(task1.result, task2.result, task3.result, task4.result, task5.result)
-                    })
+    fun <R1, R2, R3, R4, R5> parallel(task1: Task<R1>, task2: Task<R2>, task3: Task<R3>, task4: Task<R4>,
+                                      task5: Task<R5>, executor: Executor = NeoTaskExecutors.PARALLEL_DEFAULT)
+            : Task<NeoTaskQuintet<R1, R2, R3, R4, R5>> {
+        return Tasks.whenAll(task1, task2, task3, task4, task5)
+                .continueWith(executor, Continuation {
+                    assertResultNotNull(task1, task2, task3, task4, task5)
+                    NeoTaskQuintet(task1.result, task2.result, task3.result, task4.result, task5.result)
+                })
+    }
 }
