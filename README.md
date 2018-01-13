@@ -111,7 +111,7 @@ NeoTask.parallel(
 
 ```kotlin
 
-NeoTask.parallel(
+NeoTask.whenAll(
     NeoTask.async { "result1" },
     NeoTask.async { "result2" },
     NeoTask.async { "result3" },
@@ -144,7 +144,7 @@ val idToken = NeoTask.await(firebaseUser.getIdToken(false), AwaitTimeout.seconds
 
 val logging = NeoTask.awaitSequential(
      NeoTask.await(firebaseUser.getIdToken(false), AwaitTimeout.seconds(30)),
-     NeoTask.async { "token: " + it.token  })
+     { NeoTask.async { "token: " + it.token  } })
 
 ```
 
