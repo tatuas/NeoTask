@@ -17,6 +17,6 @@ class NeoTaskExecutorsUnitTest {
         assertThat(NeoTaskExecutors.MAIN_THREAD).isNotEqualTo(null)
         assertThat(NeoTaskExecutors.PARALLEL_DEFAULT).isNotEqualTo(null)
         assertThat(NeoTaskExecutors.THEN_ASYNC_DEFAULT).isNotEqualTo(null)
-        assertThat(NeoTaskExecutors.getThenExecutor()).isNotEqualTo(null)
+        assertThat(NeoTaskExecutors.getToBooleanExecutor()).isNotEqualTo(null)
     }
 }

@@ -21,7 +21,7 @@ inline fun <R1, R2> Task<R1>.thenBlocking(crossinline impl: (R1) -> R2): Task<R2
 
 @UiThread
 inline fun <R1, R2> Task<R1>.then(crossinline generateNextTask: (R1) -> Task<R2>): Task<R2> =
-        continueWithTask(NeoTaskExecutors.getThenExecutor(), generateNextTask)
+        continueWithTask(NeoTaskExecutors.THEN_ASYNC_DEFAULT, generateNextTask)
 
 /**
  * For background execution such as IntentService.
