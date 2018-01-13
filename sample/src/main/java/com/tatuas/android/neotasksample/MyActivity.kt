@@ -14,7 +14,7 @@ class MyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_my)
 
         parallelButton.setOnClickListener {
-            NeoTask.parallel(
+            NeoTask.whenAll(
                     NeoTask.async {
                         MyUtils.log("start: {${Thread.currentThread()}")
                         MyUtils.sleep()
