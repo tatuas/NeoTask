@@ -110,26 +110,26 @@ class NeoTaskUnitTest {
     }
 
     @Test
-    fun checkParallelPair() {
+    fun checkWhenAllPair() {
         assertEquals(Pair("a", "b"),
-                NeoTask.parallel(
+                NeoTask.whenAll(
                         NeoTask.blocking { "a" },
                         NeoTask.blocking { "b" }))
     }
 
     @Test
-    fun checkParallelTriple() {
+    fun checkWhenAllTriple() {
         assertEquals(Triple("a", "b", "c"),
-                NeoTask.parallel(
+                NeoTask.whenAll(
                         NeoTask.blocking { "a" },
                         NeoTask.blocking { "b" },
                         NeoTask.blocking { "c" }))
     }
 
     @Test
-    fun checkParallelQuartet() {
+    fun checkWhenAllQuartet() {
         assertEquals(NeoTaskQuartet("a", "b", "c", "d"),
-                NeoTask.parallel(
+                NeoTask.whenAll(
                         NeoTask.blocking { "a" },
                         NeoTask.blocking { "b" },
                         NeoTask.blocking { "c" },
@@ -137,9 +137,9 @@ class NeoTaskUnitTest {
     }
 
     @Test
-    fun checkParallelQuintet() {
+    fun checkWhenAllQuintet() {
         assertEquals(NeoTaskQuintet("a", "b", "c", "d", "e"),
-                NeoTask.parallel(
+                NeoTask.whenAll(
                         NeoTask.blocking { "a" },
                         NeoTask.blocking { "b" },
                         NeoTask.blocking { "c" },
