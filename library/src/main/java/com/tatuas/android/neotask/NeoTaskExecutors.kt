@@ -26,7 +26,7 @@ object NeoTaskExecutors {
      * If this method is called from the UI thread, it automatically switches to background execution.
      * Otherwise, it will run on the called Thread.
      */
-    fun getThenExecutor(): Executor = if (Thread.currentThread() == Looper.getMainLooper().thread) {
+    fun getToBooleanExecutor(): Executor = if (Thread.currentThread() == Looper.getMainLooper().thread) {
         THEN_ASYNC_DEFAULT
     } else {
         CURRENT
