@@ -28,9 +28,9 @@ object NeoTask {
     /**
      * Wrapped await
      */
-    fun <R> await(task: Task<R>, awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
+    fun <R> await(task: Task<R>, awaitTimeOut: AwaitTimeOut = AwaitTimeOut.DEFAULT): R {
         return try {
-            Tasks.await(task, awaitTimeout.time, awaitTimeout.unit)
+            Tasks.await(task, awaitTimeOut.time, awaitTimeOut.unit)
         } catch (e: ExecutionException) {
             throw e.cause ?: e
         }
@@ -40,37 +40,37 @@ object NeoTask {
      * Sequential await execution
      */
     fun <T1, R> awaitSequential(firstTask: Task<T1>, secondTask: (T1) -> Task<R>,
-                                awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
-        val t1 = await(firstTask, awaitTimeout)
-        return await(secondTask.invoke(t1), awaitTimeout)
+                                awaitTimeOut: AwaitTimeOut = AwaitTimeOut.DEFAULT): R {
+        val t1 = await(firstTask, awaitTimeOut)
+        return await(secondTask.invoke(t1), awaitTimeOut)
     }
 
     fun <T1, T2, R> awaitSequential(firstTask: Task<T1>, secondTask: (T1) -> Task<T2>,
                                     thirdTask: (T2) -> Task<R>,
-                                    awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
-        val t1 = await(firstTask, awaitTimeout)
-        val t2 = await(secondTask.invoke(t1), awaitTimeout)
-        return await(thirdTask.invoke(t2), awaitTimeout)
+                                    awaitTimeOut: AwaitTimeOut = AwaitTimeOut.DEFAULT): R {
+        val t1 = await(firstTask, awaitTimeOut)
+        val t2 = await(secondTask.invoke(t1), awaitTimeOut)
+        return await(thirdTask.invoke(t2), awaitTimeOut)
     }
 
     fun <T1, T2, T3, R> awaitSequential(firstTask: Task<T1>, secondTask: (T1) -> Task<T2>,
                                         thirdTask: (T2) -> Task<T3>, fourthTask: (T3) -> Task<R>,
-                                        awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
-        val t1 = await(firstTask, awaitTimeout)
-        val t2 = await(secondTask.invoke(t1), awaitTimeout)
-        val t3 = await(thirdTask.invoke(t2), awaitTimeout)
-        return await(fourthTask.invoke(t3), awaitTimeout)
+                                        awaitTimeOut: AwaitTimeOut = AwaitTimeOut.DEFAULT): R {
+        val t1 = await(firstTask, awaitTimeOut)
+        val t2 = await(secondTask.invoke(t1), awaitTimeOut)
+        val t3 = await(thirdTask.invoke(t2), awaitTimeOut)
+        return await(fourthTask.invoke(t3), awaitTimeOut)
     }
 
     fun <T1, T2, T3, T4, R> awaitSequential(firstTask: Task<T1>, secondTask: (T1) -> Task<T2>,
                                             thirdTask: (T2) -> Task<T3>, fourthTask: (T3) -> Task<T4>,
                                             fifthTask: (T4) -> Task<R>,
-                                            awaitTimeout: AwaitTimeout = AwaitTimeout.DEFAULT): R {
-        val t1 = await(firstTask, awaitTimeout)
-        val t2 = await(secondTask.invoke(t1), awaitTimeout)
-        val t3 = await(thirdTask.invoke(t2), awaitTimeout)
-        val t4 = await(fourthTask.invoke(t3), awaitTimeout)
-        return await(fifthTask.invoke(t4), awaitTimeout)
+                                            awaitTimeOut: AwaitTimeOut = AwaitTimeOut.DEFAULT): R {
+        val t1 = await(firstTask, awaitTimeOut)
+        val t2 = await(secondTask.invoke(t1), awaitTimeOut)
+        val t3 = await(thirdTask.invoke(t2), awaitTimeOut)
+        val t4 = await(fourthTask.invoke(t3), awaitTimeOut)
+        return await(fifthTask.invoke(t4), awaitTimeOut)
     }
 
     /**
