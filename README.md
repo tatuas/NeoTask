@@ -134,7 +134,7 @@ NeoTask.whenAll(
 
 ```kotlin
 
-val idToken = NeoTask.await(firebaseUser.getIdToken(false), AwaitTimeout.seconds(30))
+val idToken = NeoTask.await(firebaseUser.getIdToken(false), AwaitTimeOut.seconds(30))
 
 ```
 
@@ -143,8 +143,8 @@ val idToken = NeoTask.await(firebaseUser.getIdToken(false), AwaitTimeout.seconds
 ```kotlin
 
 val logging = NeoTask.awaitSequential(
-     NeoTask.await(firebaseUser.getIdToken(false), AwaitTimeout.seconds(30)),
-     { NeoTask.async { "token: " + it.token  } })
+    firebaseUser.getIdToken(false),
+    { NeoTask.async { "token: " + it.token  } })
 
 ```
 
