@@ -4,6 +4,7 @@ apply plugin: "kotlin-android-extensions"
 
 android {
     compileSdkVersion sdkVersion
+    buildToolsVersion sdkBuildVersion
 
     defaultConfig {
         applicationId "com.tatuas.android.neotasksample"

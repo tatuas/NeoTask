@@ -6,6 +6,7 @@ apply plugin: "com.vanniktech.android.junit.jacoco"
 android {
     defaultPublishConfig "release"
     compileSdkVersion sdkVersion
+    buildToolsVersion sdkBuildVersion
 
     defaultConfig {
         minSdkVersion sdkMinVersion
