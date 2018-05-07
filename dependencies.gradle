@@ -1,26 +1,27 @@
 ext {
-    kotlinVersion = "1.2.0"
-    libraryVersion = "2.1.5"
+    kotlinVersion = "1.2.41"
+    libraryVersion = "2.1.6"
 
     sdkMinVersion = 14
     sdkVersion = 27
+    sdkBuildVersion = "27.0.3"
 
     repositoryUrls = [
             jitpack: "https://jitpack.io",
     ]
 
     classpathes = [
-            googleServices: "com.google.gms:google-services:3.1.0",
-            gradle        : "com.android.tools.build:gradle:3.0.1",
+            googleServices: "com.google.gms:google-services:3.2.1",
+            gradle        : "com.android.tools.build:gradle:3.2.0-alpha13",
             kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
             maven         : "com.github.dcendents:android-maven-gradle-plugin:2.0",
             jacoco        : "com.vanniktech:gradle-android-junit-jacoco-plugin:0.11.0",
     ]
 
     implementations = [
-            appCompatV7: "com.android.support:appcompat-v7:27.0.2",
-            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",
-            gmsTask    : "com.google.android.gms:play-services-tasks:11.6.0",
+            appCompatV7: "com.android.support:appcompat-v7:27.1.1",
+            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+            gmsTask    : "com.google.android.gms:play-services-tasks:15.0.0",
             junit      : "junit:junit:4.12",
             robolectric: "org.robolectric:robolectric:3.5.1",
             assertJCore: "org.assertj:assertj-core:3.8.0",
